@@ -3,7 +3,7 @@ var cityApi = "https://api.openweathermap.org/geo/1.0/direct?q=toronto&appid=be5
 
 
 function citySearch(searchedCity){
-    searchedCity = document.getElementById("citySearch").value
+    searchedCity = document.getElementById("citySearch").value;
     cityName = document.querySelector('#city');
     var cityApi = "https://api.openweathermap.org/geo/1.0/direct?q=" + searchedCity + "&appid=be56721f2765afd4e946bf6cc853af53"
     fetch(cityApi).then((response) => {
@@ -17,12 +17,26 @@ function citySearch(searchedCity){
             cityName.innerHTML = rtrnCity + ", " + rtrnCtry;
             console.log("long is", long, "and lat is", lat);
             showWeather(long, lat);
-
+            saveCity();
         });
     });
 }
 
+function saveCity(searchedCity) {
+    searchedCity = document.getElementById("citySearch").value;
+    console.log("current search is" + searchedCity)
+    let i = 0
+    let x = localStorage.getItem(i)
+    if (x) {
+        i += 1
+        console.log("exists and ", i, x)
+        localStorage.setItem(i, searchedCity)
+    } else {
+        localStorage.setItem(i, searchedCity)
+        console.log("add new and ", i, x)
+    }
 
+}
 
 function showWeather(lon, lat) {
     var weatherApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=b10b44443a11cb1a96db83079b5f18c5"
@@ -65,8 +79,6 @@ function showWeather(lon, lat) {
             for (i = 1; i <= 5; i++) {
                 // set icon for weather
                 let icon = 'https://openweathermap.org/img/wn/'+ data.daily[i].weather[0].icon + '@2x.png';
-                let imgElem = document.createElement('img');
-                imgElem.src = icon
                 document.getElementById('icon' + i).innerHTML = '<img src =' + icon + '>'
 
                 // define variables for API pulled data
@@ -85,11 +97,6 @@ function showWeather(lon, lat) {
                 dWindSpd.innerHTML = "Wind Speed: " + dailyWindSpd + "MPH"
                 dHumidity.innerHTML = "Humidity: " + dailyHumidity + "%"
             }
-        });
-    });
-    fetch(weatherApi).then((response) =>  {
-        response.json().then(function(data) {
-            console.log(data)
         });
     });
 };
