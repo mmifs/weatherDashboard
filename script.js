@@ -17,25 +17,43 @@ function citySearch(searchedCity){
             cityName.innerHTML = rtrnCity + ", " + rtrnCtry;
             console.log("long is", long, "and lat is", lat);
             showWeather(long, lat);
-            saveCity();
+            addToLocalStorage();
+            //listBtns();
         });
     });
 }
 
-function saveCity(searchedCity) {
-    searchedCity = document.getElementById("citySearch").value;
-    console.log("current search is" + searchedCity)
-    let i = 0
-    let x = localStorage.getItem(i)
-    if (x) {
-        i += 1
-        console.log("exists and ", i, x)
-        localStorage.setItem(i, searchedCity)
-    } else {
-        localStorage.setItem(i, searchedCity)
-        console.log("add new and ", i, x)
+function listBtns() {
+    locationArray = JSON.parse(localStorage.getItem("locations"))
+    for (i = 0; i < locationArray.length; i++) {
+        var btn = document.createElement("button");
+        btn.textContent = locationArray[i]
+        document.getElementById("btnNew").appendChild(btn);
+        //var btn = document.createElement("button");
+        //btn.text = "WORKING"
+       // document.body.appendChild(btn);
+       // var newBtn = document.createElement("button");
+        //var btns = document.getElementById("btnNew");
+        //newBtn.type = submit;
+        //newBtn.textContent = locationArray[i];
+        //document.btns.appendChild(newBtn)
     }
 
+   // var btn = document.createElement("button");
+    //btn.textContent = "WORKING"
+    //document.getElementById("btnNew").appendChild(btn);
+}
+
+function addToLocalStorage(searchedCity) {
+    searchedCity = document.getElementById("citySearch").value;
+    let locationArray;
+    if(JSON.parse(localStorage.getItem("locations")) === null) {
+        locationArray = [];
+    } else {
+        locationArray = JSON.parse(localStorage.getItem("locations")); // pulls array from local storage
+    }
+    locationArray.push(searchedCity);
+    localStorage.setItem("locations", JSON.stringify(locationArray));
 }
 
 function showWeather(lon, lat) {
@@ -106,3 +124,5 @@ $("#searchBtn").on("click", function() {
     citySearch()
     console.log(searchedCity);
     })
+
+//listBtns();
