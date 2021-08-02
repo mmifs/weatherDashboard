@@ -6,3 +6,20 @@
 .day {
     border: solid black 2px;
 }
+
+.favorable {
+    background-color: green;
+    color: white;
+
+}
+
+.moderate {
+    background-color: yellow;
+    color: white;
+
+}
+
+.severe {
+    background-color: red;
+    color: white;
+}

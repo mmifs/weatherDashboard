@@ -35,6 +35,20 @@ function showWeather(lon, lat) {
             let calcHumidity = data.current.humidity + "%"
             let calcUvIndex = data.current.uvi
 
+            if (data.current.uvi <= 2) {
+                $("#UV").addClass("favorable");
+                $("#UV").removeClass("moderate");
+                $("#UV").removeClass("severe");
+              } else if (data.current.uvi <= 5) {
+                $("#UV").addClass("moderate");
+                $("#UV").removeClass("favorable");
+                $("#UV").removeClass("severe");
+              } else {
+                $("#UV").addClass("severe");
+                $("#UV").removeClass("moderate");
+                $("#UV").removeClass("favorable");
+              }
+
             var temp = document.querySelector('#temperature');
             temp.innerHTML = calcTemp;
 
@@ -53,7 +67,7 @@ function showWeather(lon, lat) {
                 let icon = 'https://openweathermap.org/img/wn/'+ data.daily[i].weather[0].icon + '@2x.png';
                 let imgElem = document.createElement('img');
                 imgElem.src = icon
-                document.getElementById('icon' + i).appendChild(imgElem)
+                document.getElementById('icon' + i).innerHTML = '<img src =' + icon + '>'
 
                 // define variables for API pulled data
                 let dailyTemp = Math.round((data.daily[i].temp.day) - 273.15)
